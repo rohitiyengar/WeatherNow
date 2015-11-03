@@ -11,6 +11,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="21dp"
-        android:textColor="#1619ff" />
+        android:textColor="#1619ff"
+        android:textSize="20pt" />
 
 </RelativeLayout>
