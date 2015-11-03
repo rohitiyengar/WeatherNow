@@ -8,7 +8,7 @@
     <TextView android:text="@string/weather_now" android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/lblMain"
-        android:layout_marginTop="81dp"
+        android:layout_marginTop="161dp"
         android:textColor="#1619ff"
         android:textSize="20pt"
         android:layout_alignParentTop="true"
