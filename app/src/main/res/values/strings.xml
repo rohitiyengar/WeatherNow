@@ -2,5 +2,6 @@
     <string name="app_name">WeatherNow</string>
 
     <string name="hello_world">Hello world!</string>
+    <string name="weather_now">Weather Now</string>
     <string name="action_settings">Settings</string>
 </resources>
