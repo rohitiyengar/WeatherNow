@@ -1,6 +1,7 @@
 package com.project.mobilecomputing.weathernow;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +14,9 @@ import com.project.mobilecomputing.weathernow.models.WeatherData;
 
 import org.json.JSONException;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class LauncherActivity extends Activity {
 
     @Override
@@ -21,6 +25,21 @@ public class LauncherActivity extends Activity {
         setContentView(R.layout.activity_launcher);
         JSONWeatherTask task = new JSONWeatherTask();
         task.execute("London"); // REMOVE
+
+
+
+        int timeout = 4000;
+
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+
+            @Override
+            public void run() {
+                finish();
+                Intent homepage = new Intent(LauncherActivity.this, HomeScreen.class);
+                startActivity(homepage);
+            }
+        }, timeout);
     }
 
     @Override
