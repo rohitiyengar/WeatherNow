@@ -1,10 +1,17 @@
 package com.project.mobilecomputing.weathernow;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.project.mobilecomputing.weathernow.helpers.JSONParser;
+import com.project.mobilecomputing.weathernow.helpers.WeatherClient;
+import com.project.mobilecomputing.weathernow.models.WeatherData;
+
+import org.json.JSONException;
 
 public class LauncherActivity extends Activity {
 
@@ -12,6 +19,8 @@ public class LauncherActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launcher);
+        JSONWeatherTask task = new JSONWeatherTask();
+        task.execute("London");
     }
 
     @Override
@@ -34,5 +43,24 @@ public class LauncherActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    private class JSONWeatherTask extends AsyncTask<String, Void, WeatherData> {
+
+        @Override
+        protected WeatherData doInBackground(String... params) {
+            WeatherData weather = new WeatherData();
+            String data = ((new WeatherClient()).getWeatherData(params[0]));
+
+            try {
+                weather = JSONParser.getWeatherData(data);
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            System.out.println(weather);
+            return weather;
+        }
+
     }
 }

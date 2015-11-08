@@ -2,12 +2,13 @@ package com.project.mobilecomputing.weathernow.models;
 
 /**
  * Created by rohit.iyengar on 11/7/2015.
+ * Referenced from http://www.survivingwithandroid.com/2013/05/build-weather-app-json-http-android.html
  */
 public class WeatherData {
 
     public byte[] image;
     public Location location;
-    public WeatherConditions currentCondition = new WeatherConditions();
+    public WeatherConditions conditions = new WeatherConditions();
     public Temp temperature = new Temp();
     public Wind wind = new Wind();
     public Rain rain = new Rain();
