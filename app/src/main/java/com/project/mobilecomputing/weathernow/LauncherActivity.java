@@ -20,7 +20,7 @@ public class LauncherActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launcher);
         JSONWeatherTask task = new JSONWeatherTask();
-        task.execute("London");
+        task.execute("London"); // REMOVE
     }
 
     @Override
@@ -44,6 +44,7 @@ public class LauncherActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
+    //Remove
     private class JSONWeatherTask extends AsyncTask<String, Void, WeatherData> {
 
         @Override
