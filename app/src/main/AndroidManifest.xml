@@ -19,7 +19,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".HomeScreen" >
+        <activity android:name=".HomeScreen"
+            android:theme="@android:style/Theme.NoTitleBar">
         </activity>
     </application>
 
