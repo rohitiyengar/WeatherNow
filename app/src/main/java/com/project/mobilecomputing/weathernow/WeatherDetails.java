@@ -1,6 +1,7 @@
 package com.project.mobilecomputing.weathernow;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.Button;
@@ -14,10 +15,11 @@ import com.project.mobilecomputing.weathernow.helpers.WeatherClient;
 import com.project.mobilecomputing.weathernow.models.WeatherData;
 
 import org.json.JSONException;
-import org.w3c.dom.Text;
+
 
 public class WeatherDetails extends Activity {
     RelativeLayout weatherLayout;
+    RelativeLayout mainLayout;
     TextView tempTextView;
     TextView conditionsTextView;
     TextView pressureTextView;
@@ -31,7 +33,7 @@ public class WeatherDetails extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather_details);
-
+        mainLayout=(RelativeLayout) findViewById(R.id.mainLayout);
         weatherLayout = (RelativeLayout) findViewById(R.id.weatherLayout);
         tempTextView = (TextView) findViewById(R.id.tempText);
         conditionsTextView = (TextView) findViewById(R.id.conditionTextView);
@@ -92,6 +94,64 @@ public class WeatherDetails extends Activity {
                 pressureTextView.setText("" + weather.conditions.getPressure() + " hPa");
                 sunriseTextView.setText(Converters.timeStampConverter(weather.location.getSunrise())+"");
                 sunsetTextView.setText(Converters.timeStampConverter(weather.location.getSunset())+"");
+                if(weather.conditions.getIcon().contains("d"))
+                {
+                    System.out.println("Day");
+                    mainLayout.setBackgroundColor(Color.parseColor("#16A7CE"));
+                    if(weather.conditions.getCondition().contains("Clear"))
+                    {
+                        weatherLayout.setBackgroundResource(R.drawable.clear);
+                    }
+                    else if(weather.conditions.getCondition().contains("Rain"))
+                    {
+                        weatherLayout.setBackgroundResource(R.drawable.rain);
+                    }
+                    else if(weather.conditions.getCondition().contains("Cloud"))
+                    {
+                        weatherLayout.setBackgroundResource(R.drawable.clouds);
+                    }
+                    else if(weather.conditions.getCondition().contains("storm"))
+                    {
+                        weatherLayout.setBackgroundResource(R.drawable.thunder);
+                    }
+                    else if(weather.conditions.getCondition().contains("Snow"))
+                    {
+                        weatherLayout.setBackgroundResource(R.drawable.snow);
+                    }
+                    else if(weather.conditions.getCondition().contains("Mist"))
+                    {
+                        weatherLayout.setBackgroundResource(R.drawable.fog);
+                    }
+                }
+                else
+                {
+                    System.out.println("Night");
+                    mainLayout.setBackgroundColor(Color.parseColor("#073440"));
+                    if(weather.conditions.getCondition().contains("Clear"))
+                    {
+                        weatherLayout.setBackgroundResource(R.drawable.nightclear);
+                    }
+                    else if(weather.conditions.getCondition().contains("Rain"))
+                    {
+                        weatherLayout.setBackgroundResource(R.drawable.nightrain);
+                    }
+                    else if(weather.conditions.getCondition().contains("Cloud"))
+                    {
+                        weatherLayout.setBackgroundResource(R.drawable.nightclouds);
+                    }
+                    else if(weather.conditions.getCondition().contains("storm"))
+                    {
+                        weatherLayout.setBackgroundResource(R.drawable.nightthunder);
+                    }
+                    else if(weather.conditions.getCondition().contains("Snow"))
+                    {
+                        weatherLayout.setBackgroundResource(R.drawable.nightsnow);
+                    }
+                    else if(weather.conditions.getCondition().contains("Mist"))
+                    {
+                        weatherLayout.setBackgroundResource(R.drawable.nightfog);
+                    }
+                }
 
             }
             catch (Exception e)

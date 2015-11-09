@@ -6,7 +6,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.project.mobilecomputing.weathernow.WeatherDetails"
-    android:background="#16A7CE">
+    android:background="#16A7CE"
+    android:id="@+id/mainLayout">
 
     <RelativeLayout
         android:layout_width="match_parent"
