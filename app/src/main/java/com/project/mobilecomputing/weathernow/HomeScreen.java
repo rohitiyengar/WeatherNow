@@ -1,6 +1,7 @@
 package com.project.mobilecomputing.weathernow;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -37,6 +38,8 @@ public class HomeScreen extends Activity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(HomeScreen.this,"Get Weather From GPS",Toast.LENGTH_SHORT).show();
+                Intent weatherIntent = new Intent(HomeScreen.this, WeatherDetails.class);
+                startActivity(weatherIntent);
             }
         });
 

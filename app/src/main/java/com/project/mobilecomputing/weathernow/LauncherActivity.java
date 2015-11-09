@@ -23,10 +23,6 @@ public class LauncherActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launcher);
-        JSONWeatherTask task = new JSONWeatherTask();
-        task.execute("London"); // REMOVE
-
-
 
         int timeout = 4000;
 
@@ -64,23 +60,5 @@ public class LauncherActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
     //Remove
-    private class JSONWeatherTask extends AsyncTask<String, Void, WeatherData> {
 
-        @Override
-        protected WeatherData doInBackground(String... params) {
-            WeatherData weather = new WeatherData();
-            String data = ((new WeatherClient()).getWeatherData(params[0]));
-
-            try {
-                weather = JSONParser.getWeatherData(data);
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            System.out.println(weather);
-            return weather;
-        }
-
-    }
 }
