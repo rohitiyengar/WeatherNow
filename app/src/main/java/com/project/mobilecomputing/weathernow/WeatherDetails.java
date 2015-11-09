@@ -70,7 +70,8 @@ public class WeatherDetails extends Activity {
                 data = ((new WeatherClient()).getWeatherData(params[0]));
 
             }
-            else if(mode==1) {
+            else if(mode==1)
+            {
                 data = ((new WeatherClient()).getWeatherData(params[0], params[1]));
             }
 
@@ -96,7 +97,7 @@ public class WeatherDetails extends Activity {
                 sunsetTextView.setText(Converters.timeStampConverter(weather.location.getSunset())+"");
                 if(weather.conditions.getIcon().contains("d"))
                 {
-                    System.out.println("Day");
+
                     mainLayout.setBackgroundColor(Color.parseColor("#16A7CE"));
                     if(weather.conditions.getCondition().contains("Clear"))
                     {
@@ -122,10 +123,18 @@ public class WeatherDetails extends Activity {
                     {
                         weatherLayout.setBackgroundResource(R.drawable.fog);
                     }
+                    else if(weather.conditions.getCondition().contains("Extreme"))
+                    {
+                        weatherLayout.setBackgroundResource(R.drawable.thunder);
+                    }
+                    else if(weather.conditions.getCondition().contains("Atmosphere"))
+                    {
+                        weatherLayout.setBackgroundResource(R.drawable.fog);
+                    }
                 }
                 else
                 {
-                    System.out.println("Night");
+
                     mainLayout.setBackgroundColor(Color.parseColor("#073440"));
                     if(weather.conditions.getCondition().contains("Clear"))
                     {
@@ -148,6 +157,14 @@ public class WeatherDetails extends Activity {
                         weatherLayout.setBackgroundResource(R.drawable.nightsnow);
                     }
                     else if(weather.conditions.getCondition().contains("Mist"))
+                    {
+                        weatherLayout.setBackgroundResource(R.drawable.nightfog);
+                    }
+                    else if(weather.conditions.getCondition().contains("Extreme"))
+                    {
+                        weatherLayout.setBackgroundResource(R.drawable.nightthunder);
+                    }
+                    else if(weather.conditions.getCondition().contains("Atmosphere"))
                     {
                         weatherLayout.setBackgroundResource(R.drawable.nightfog);
                     }

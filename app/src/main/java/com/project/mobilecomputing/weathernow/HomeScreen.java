@@ -35,7 +35,7 @@ public class HomeScreen extends Activity {
         weatherImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(HomeScreen.this,"Get Weather",Toast.LENGTH_SHORT).show();
+
                 Intent cityIntent= new Intent(HomeScreen.this,CityEntry.class);
                 startActivity(cityIntent);
             }
@@ -50,7 +50,6 @@ public class HomeScreen extends Activity {
 
                     latitude = gps.getLatitude();
                     longitude = gps.getLongitude();
-                    Toast.makeText(HomeScreen.this,"Get Weather From GPS",Toast.LENGTH_SHORT).show();
                     Intent weatherIntent = new Intent(HomeScreen.this, WeatherDetails.class);
                     weatherIntent.putExtra("mode",1);//GPS Mode.
                     weatherIntent.putExtra("lat",latitude);
