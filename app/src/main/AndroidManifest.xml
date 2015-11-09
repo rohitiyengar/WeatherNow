@@ -3,7 +3,7 @@
     package="com.project.mobilecomputing.weathernow" >
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -25,6 +25,8 @@
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity android:name=".WeatherDetails" >
+        </activity>
+        <activity android:name=".CityEntry" >
         </activity>
     </application>
 

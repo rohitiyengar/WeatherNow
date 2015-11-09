@@ -36,6 +36,8 @@ public class HomeScreen extends Activity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(HomeScreen.this,"Get Weather",Toast.LENGTH_SHORT).show();
+                Intent cityIntent= new Intent(HomeScreen.this,CityEntry.class);
+                startActivity(cityIntent);
             }
         });
 

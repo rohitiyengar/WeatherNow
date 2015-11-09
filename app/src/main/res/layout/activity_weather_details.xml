@@ -35,7 +35,8 @@
             android:id="@+id/cityTextView"
             android:layout_above="@+id/tempText"
             android:layout_alignStart="@+id/tempText"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"
+            android:textSize="8pt" />
     </RelativeLayout>
 
     <LinearLayout

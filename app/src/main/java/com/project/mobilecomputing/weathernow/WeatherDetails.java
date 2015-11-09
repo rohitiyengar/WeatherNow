@@ -2,7 +2,6 @@ package com.project.mobilecomputing.weathernow;
 
 import android.app.Activity;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -49,6 +48,11 @@ public class WeatherDetails extends Activity {
             JSONWeatherTask task = new JSONWeatherTask();
             task.execute(getIntent().getExtras().get("lat").toString(),getIntent().getExtras().get("lon").toString());
         }
+        else if(mode==0)
+        {
+            JSONWeatherTask task = new JSONWeatherTask();
+            task.execute(getIntent().getExtras().get("city").toString());
+        }
 
 
     }
@@ -82,7 +86,7 @@ public class WeatherDetails extends Activity {
 
             super.onPostExecute(weather);
             try{
-                cityText.setText(weather.location.getCity().toUpperCase() + ", " + weather.location.getCountry().toUpperCase());
+                cityText.setText(weather.location.getCity().toUpperCase() + ", " + Converters.countryCodeConverter(weather.location.getCountry()));
                 conditionsTextView.setText(weather.conditions.getCondition().toUpperCase() + "(" + weather.conditions.getDescr().toUpperCase() + ")");
                 tempTextView.setText("" + Math.round((weather.temperature.getTemp() - 273.15)) + "° C");//Converting to celsius
                 pressureTextView.setText("" + weather.conditions.getPressure() + " hPa");
