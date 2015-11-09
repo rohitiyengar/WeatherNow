@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.project.mobilecomputing.weathernow.helpers.Converters;
 import com.project.mobilecomputing.weathernow.helpers.JSONParser;
 import com.project.mobilecomputing.weathernow.helpers.WeatherClient;
 import com.project.mobilecomputing.weathernow.models.WeatherData;
@@ -25,7 +26,7 @@ public class WeatherDetails extends Activity {
     TextView sunsetTextView;
     TextView cityText;
     Button forecastButton;
-
+    Integer mode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +41,16 @@ public class WeatherDetails extends Activity {
         sunsetTextView = (TextView) findViewById(R.id.sunsetTextView);
         cityText=(TextView)findViewById(R.id.cityTextView);
         forecastButton = (Button) findViewById(R.id.forecastButton);
+        mode=getIntent().getIntExtra("mode",0);
+        if(mode==1)
+        {
+            System.out.println(getIntent().getExtras().get("lat"));
+            System.out.println(getIntent().getExtras().get("lon"));
+            JSONWeatherTask task = new JSONWeatherTask();
+            task.execute(getIntent().getExtras().get("lat").toString(),getIntent().getExtras().get("lon").toString());
+        }
 
-        JSONWeatherTask task = new JSONWeatherTask();
-        task.execute("London"); // REMOVE
+
     }
 
     private class JSONWeatherTask extends AsyncTask<String, Void, WeatherData> {
@@ -50,16 +58,22 @@ public class WeatherDetails extends Activity {
         @Override
         protected WeatherData doInBackground(String... params) {
             WeatherData weather = new WeatherData();
-            String data = ((new WeatherClient()).getWeatherData(params[0]));
+            String data="";
+            if(mode==0)
+            {
+                data = ((new WeatherClient()).getWeatherData(params[0]));
+
+            }
+            else if(mode==1) {
+                data = ((new WeatherClient()).getWeatherData(params[0], params[1]));
+            }
 
             try {
                 weather = JSONParser.getWeatherData(data);
 
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            System.out.println(weather);
             return weather;
         }
 
@@ -67,15 +81,13 @@ public class WeatherDetails extends Activity {
         protected void onPostExecute(WeatherData weather) {
 
             super.onPostExecute(weather);
-
-
             try{
-                cityText.setText(weather.location.getCity().toUpperCase() + "," + weather.location.getCountry().toUpperCase());
+                cityText.setText(weather.location.getCity().toUpperCase() + ", " + weather.location.getCountry().toUpperCase());
                 conditionsTextView.setText(weather.conditions.getCondition().toUpperCase() + "(" + weather.conditions.getDescr().toUpperCase() + ")");
                 tempTextView.setText("" + Math.round((weather.temperature.getTemp() - 273.15)) + "° C");//Converting to celsius
                 pressureTextView.setText("" + weather.conditions.getPressure() + " hPa");
-                sunriseTextView.setText(weather.location.getSunrise()+"");
-                sunsetTextView.setText(weather.location.getSunset()+"");
+                sunriseTextView.setText(Converters.timeStampConverter(weather.location.getSunrise())+"");
+                sunsetTextView.setText(Converters.timeStampConverter(weather.location.getSunset())+"");
 
             }
             catch (Exception e)

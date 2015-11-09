@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.project.mobilecomputing.weathernow.helpers.GPSLocationProvider;
+
 public class HomeScreen extends Activity {
     ImageView weatherImageView;
     ImageView gpsImageView;
@@ -15,6 +17,9 @@ public class HomeScreen extends Activity {
     ImageView historyImageView;
     ImageView favImageView;
     ImageView aboutImageView;
+    GPSLocationProvider gps;
+    double latitude;
+    double longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +42,23 @@ public class HomeScreen extends Activity {
         gpsImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(HomeScreen.this,"Get Weather From GPS",Toast.LENGTH_SHORT).show();
-                Intent weatherIntent = new Intent(HomeScreen.this, WeatherDetails.class);
-                startActivity(weatherIntent);
+
+                gps= new GPSLocationProvider(HomeScreen.this);
+                if(gps.canGetLocation()){
+
+                    latitude = gps.getLatitude();
+                    longitude = gps.getLongitude();
+                    Toast.makeText(HomeScreen.this,"Get Weather From GPS",Toast.LENGTH_SHORT).show();
+                    Intent weatherIntent = new Intent(HomeScreen.this, WeatherDetails.class);
+                    weatherIntent.putExtra("mode",1);//GPS Mode.
+                    weatherIntent.putExtra("lat",latitude);
+                    weatherIntent.putExtra("lon",longitude);
+                    startActivity(weatherIntent);
+                }
+                else{
+
+                    gps.showSettingsAlert();
+                }
             }
         });
 

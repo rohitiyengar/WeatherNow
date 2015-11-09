@@ -24,10 +24,8 @@ import android.os.IBinder;
 import android.provider.Settings;
 import android.util.Log;
 
-/*****
- * Class which contains a method to return current location in the form of GPS Coordinates.
- * @author ROHIT
- *
+/**
+ * Created by rohit.iyengar on 11/8/2015.
  */
 public class GPSLocationProvider extends Service implements LocationListener {
 
@@ -105,13 +103,6 @@ public class GPSLocationProvider extends Service implements LocationListener {
                         Log.d("GPS Enabled", "GPS Enabled");
                         if (locationManager != null) {
                             if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                                // TODO: Consider calling
-                                //    public void requestPermissions(@NonNull String[] permissions, int requestCode)
-                                // here to request the missing permissions, and then overriding
-                                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                                //                                          int[] grantResults)
-                                // to handle the case where the user grants the permission. See the documentation
-                                // for Activity#requestPermissions for more details.
                                 return null;
                             }
                             location = locationManager
@@ -137,23 +128,12 @@ public class GPSLocationProvider extends Service implements LocationListener {
     public void stopUsingGPS() {
         if (locationManager != null) {
             if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    public void requestPermissions(@NonNull String[] permissions, int requestCode)
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for Activity#requestPermissions for more details.
                 return;
             }
             locationManager.removeUpdates(GPSLocationProvider.this);
         }
     }
 
-    /*****
-     * Getting latitude
-     * @return latitude as a double value
-     */
     public double getLatitude(){
         if(location != null){
             latitude = location.getLatitude();
@@ -161,10 +141,6 @@ public class GPSLocationProvider extends Service implements LocationListener {
         return latitude;
     }
 
-    /*****
-     * Getting longitude
-     * @return longitude as a double value
-     */
     public double getLongitude(){
         if(location != null){
             longitude = location.getLongitude();
@@ -220,5 +196,5 @@ public class GPSLocationProvider extends Service implements LocationListener {
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
     }
-    
+
 }
