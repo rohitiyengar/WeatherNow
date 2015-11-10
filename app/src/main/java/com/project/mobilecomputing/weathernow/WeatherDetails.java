@@ -1,9 +1,12 @@
 package com.project.mobilecomputing.weathernow;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -56,7 +59,23 @@ public class WeatherDetails extends Activity {
             task.execute(getIntent().getExtras().get("city").toString());
         }
 
+        ActionBar actionBar = getActionBar();
 
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayUseLogoEnabled(true);
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#06272E")));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // app icon in action bar clicked; goto parent activity.
+                this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private class JSONWeatherTask extends AsyncTask<String, Void, WeatherData> {
