@@ -1,7 +1,15 @@
 package com.project.mobilecomputing.weathernow;
 
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.support.v7.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -20,6 +28,9 @@ public class HomeScreen extends Activity {
     GPSLocationProvider gps;
     double latitude;
     double longitude;
+    NotificationManager manager;
+    Notification myNotication;
+    static int notificationNumber=99999;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,8 +99,27 @@ public class HomeScreen extends Activity {
         aboutImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(HomeScreen.this,"About Us",Toast.LENGTH_SHORT).show();
+                Toast.makeText(HomeScreen.this, "About Us", Toast.LENGTH_SHORT).show();
+                showNotification();
             }
         });
+
+
+    }
+    public void showNotification() {
+        PendingIntent pi = PendingIntent.getActivity(this, 0, new Intent(this, HomeScreen.class), 0);
+
+        Notification notification = new NotificationCompat.Builder(this)
+                .setTicker("Weather Alert!")
+                .setSmallIcon(R.drawable.applogo)
+
+                .setContentTitle("Hello")
+                .setContentText("Hi")
+                .setContentIntent(pi)
+                .setAutoCancel(true)
+                .build();
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.notify(notificationNumber++, notification);
     }
 }
