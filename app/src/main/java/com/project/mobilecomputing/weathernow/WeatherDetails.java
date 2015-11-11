@@ -84,7 +84,6 @@ public class WeatherDetails extends Activity {
                 this.finish();
                 return true;
             case R.id.action_share:
-                Toast.makeText(WeatherDetails.this, "HELLO", Toast.LENGTH_SHORT).show();
                 String message = "The current temperature at "+city+" is "+temperature+" and the conditions at the location are "+conditions;
                 Intent share = new Intent(Intent.ACTION_SEND);
                 share.setType("text/plain");
