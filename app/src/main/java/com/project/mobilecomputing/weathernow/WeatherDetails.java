@@ -2,10 +2,12 @@ package com.project.mobilecomputing.weathernow;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -30,6 +32,9 @@ public class WeatherDetails extends Activity {
     TextView sunsetTextView;
     TextView cityText;
     Button forecastButton;
+    String temperature;
+    String conditions;
+    String city;
     Integer mode;
 
     @Override
@@ -67,11 +72,24 @@ public class WeatherDetails extends Activity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_weather_details, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                // app icon in action bar clicked; goto parent activity.
                 this.finish();
+                return true;
+            case R.id.action_share:
+                Toast.makeText(WeatherDetails.this, "HELLO", Toast.LENGTH_SHORT).show();
+                String message = "The current temperature at "+city+" is "+temperature+" and the conditions at the location are "+conditions;
+                Intent share = new Intent(Intent.ACTION_SEND);
+                share.setType("text/plain");
+                share.putExtra(Intent.EXTRA_TEXT, message);
+                startActivity(Intent.createChooser(share, "Share Current Weather Conditions"));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -109,7 +127,7 @@ public class WeatherDetails extends Activity {
             super.onPostExecute(weather);
             try{
                 cityText.setText(weather.location.getCity().toUpperCase() + ", " + Converters.countryCodeConverter(weather.location.getCountry()));
-                conditionsTextView.setText(weather.conditions.getCondition().toUpperCase() + "(" + weather.conditions.getDescr().toUpperCase() + ")");
+                conditionsTextView.setText(weather.conditions.getCondition() + " (" + weather.conditions.getDescr().toUpperCase() + ")");
                 tempTextView.setText("" + Math.round((weather.temperature.getTemp() - 273.15)) + "° C");//Converting to celsius
                 pressureTextView.setText("" + weather.conditions.getPressure() + " hPa");
                 sunriseTextView.setText(Converters.timeStampConverter(weather.location.getSunrise())+"");
@@ -188,7 +206,9 @@ public class WeatherDetails extends Activity {
                         weatherLayout.setBackgroundResource(R.drawable.nightfog);
                     }
                 }
-
+                temperature=Math.round((weather.temperature.getTemp() - 273.15)) + "° C";
+                city=weather.location.getCity().toUpperCase() + ", " + Converters.countryCodeConverter(weather.location.getCountry());
+                conditions=weather.conditions.getCondition() + " (" + weather.conditions.getDescr().toUpperCase() + ")";
             }
             catch (Exception e)
             {

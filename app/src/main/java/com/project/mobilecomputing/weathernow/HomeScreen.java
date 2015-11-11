@@ -81,12 +81,7 @@ public class HomeScreen extends Activity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(HomeScreen.this,"Favorites",Toast.LENGTH_SHORT).show();
-                String message = "Text I want to share.";
-                Intent share = new Intent(Intent.ACTION_SEND);
-                share.setType("text/plain");
-                share.putExtra(Intent.EXTRA_TEXT, message);
 
-                startActivity(Intent.createChooser(share, "Title of the dialog the system will open"));
             }
         });
 
