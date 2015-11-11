@@ -1,5 +1,7 @@
 package com.project.mobilecomputing.weathernow.helpers;
 
+import com.project.mobilecomputing.weathernow.models.DayForecast;
+import com.project.mobilecomputing.weathernow.models.ForecastData;
 import com.project.mobilecomputing.weathernow.models.Location;
 import com.project.mobilecomputing.weathernow.models.WeatherData;
 
@@ -44,6 +46,29 @@ public class JSONParser {
         JSONObject cloud = getObject("clouds", obj);
         weatherData.clouds.setPerc(getInt("all", cloud));
         return weatherData;
+    }
+    public static ForecastData getForecastData(String result) throws JSONException
+    {
+        ForecastData forecastData= new ForecastData();
+        JSONObject jsonObject = new JSONObject(result);
+        JSONObject city = getObject("city",jsonObject);
+        forecastData.setCity(getString("name",city));
+        forecastData.setCountry(getString("country",city));
+        JSONArray forecastList = jsonObject.getJSONArray("list");
+        for(int i=0;i<5;i++)
+        {
+            DayForecast dayForecast= new DayForecast();
+            JSONObject dayForecastObj = forecastList.getJSONObject(i);
+            dayForecast.setLongDate(getInt("dt",dayForecastObj));
+            JSONObject temp = getObject("temp",dayForecastObj);
+            dayForecast.temperature.setMaxTemp(getFloat("max",temp));
+            dayForecast.temperature.setMinTemp(getFloat("min",temp));
+            JSONArray weather = dayForecastObj.getJSONArray("weather");
+            JSONObject weatherObj = weather.getJSONObject(0);
+            dayForecast.setWeather(getString("description",weatherObj));
+            forecastData.addDayForecast(dayForecast);
+        }
+        return forecastData;
     }
     private static JSONObject getObject(String tagName, JSONObject jObj)  throws JSONException {
         JSONObject subObj = jObj.getJSONObject(tagName);
