@@ -84,7 +84,7 @@ public class WeatherDetails extends Activity {
                 this.finish();
                 return true;
             case R.id.action_share:
-                String message = "The current temperature at "+city+" is "+temperature+" and the conditions at the location are "+conditions;
+                String message = "The current temperature at "+city+" is "+temperature+" and the conditions at the location are "+conditions+"(Shared through WeatherNow App!)";
                 Intent share = new Intent(Intent.ACTION_SEND);
                 share.setType("text/plain");
                 share.putExtra(Intent.EXTRA_TEXT, message);
