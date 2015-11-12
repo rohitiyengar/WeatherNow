@@ -1,6 +1,7 @@
 package com.project.mobilecomputing.weathernow;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +24,8 @@ public class LauncherActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launcher);
+
+        startService(new Intent(this, NotificationService.class));
 
         int timeout = 4000;
 

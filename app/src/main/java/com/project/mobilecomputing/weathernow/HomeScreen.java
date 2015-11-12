@@ -4,11 +4,9 @@ import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.support.v7.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,8 +26,7 @@ public class HomeScreen extends Activity {
     GPSLocationProvider gps;
     double latitude;
     double longitude;
-    NotificationManager manager;
-    Notification myNotication;
+
     static int notificationNumber=99999;
 
     @Override
@@ -108,11 +105,11 @@ public class HomeScreen extends Activity {
     }
     public void showNotification() {
         PendingIntent pi = PendingIntent.getActivity(this, 0, new Intent(this, HomeScreen.class), 0);
-
+        Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.applogosmall);
         Notification notification = new NotificationCompat.Builder(this)
                 .setTicker("Weather Alert!")
-                .setSmallIcon(R.drawable.applogo)
-
+                .setSmallIcon(R.drawable.smalllogo)
+                .setLargeIcon(largeIcon)
                 .setContentTitle("Hello")
                 .setContentText("Hi")
                 .setContentIntent(pi)
