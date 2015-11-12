@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.project.mobilecomputing.weathernow.helpers.JSONParser;
 import com.project.mobilecomputing.weathernow.helpers.WeatherClient;
@@ -25,7 +26,14 @@ public class LauncherActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launcher);
 
-        startService(new Intent(this, NotificationService.class));
+        try {
+            startService(new Intent(this, NotificationService.class));
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(this,"Notification Service is up",Toast.LENGTH_SHORT).show();
+        }
+
 
         int timeout = 4000;
 

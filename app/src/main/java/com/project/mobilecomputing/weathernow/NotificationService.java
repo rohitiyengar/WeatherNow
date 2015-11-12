@@ -42,7 +42,8 @@ public class NotificationService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        weatherThread.start(); //Start Thread.
+        if(!weatherThread.isAlive())
+            weatherThread.start(); //Start Thread.
         return START_STICKY;
     }
 
@@ -90,7 +91,7 @@ public class NotificationService extends Service {
     }
 
     class WeatherThread extends Thread{
-        static final long DELAY = 1000*5*60;
+        static final long DELAY = 1000*1*60;
 
         public WeatherThread()
         {
