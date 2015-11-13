@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -35,6 +36,7 @@ public class WeatherDetails extends Activity {
     String temperature;
     String conditions;
     String city;
+    String cityForecast;
     Integer mode;
 
     @Override
@@ -69,6 +71,15 @@ public class WeatherDetails extends Activity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayUseLogoEnabled(true);
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#06272E")));
+
+        forecastButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent forecastIntent = new Intent(WeatherDetails.this, ForecastActivity.class);
+                forecastIntent.putExtra("cityforecast",cityForecast);
+                startActivity(forecastIntent);
+            }
+        });
     }
 
     @Override
@@ -207,6 +218,7 @@ public class WeatherDetails extends Activity {
                 }
                 temperature=Math.round((weather.temperature.getTemp() - 273.15)) + "° C";
                 city=weather.location.getCity().toUpperCase() + ", " + Converters.countryCodeConverter(weather.location.getCountry());
+                cityForecast = weather.location.getCity();
                 conditions=weather.conditions.getCondition() + " (" + weather.conditions.getDescr().toUpperCase() + ")";
             }
             catch (Exception e)

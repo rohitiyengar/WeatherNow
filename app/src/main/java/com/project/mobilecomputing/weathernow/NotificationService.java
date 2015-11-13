@@ -91,7 +91,7 @@ public class NotificationService extends Service {
     }
 
     class WeatherThread extends Thread{
-        static final long DELAY = 1000*1*60;
+        static final long DELAY = 1000*5*60;
 
         public WeatherThread()
         {

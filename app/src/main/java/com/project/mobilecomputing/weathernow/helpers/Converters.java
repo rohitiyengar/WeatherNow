@@ -18,6 +18,15 @@ public class Converters {
         return formattedDate;
     }
 
+    public static String timeStampConverterForDate(long time)
+    {
+        Date date = new Date(time*1000L);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT-4"));
+        String formattedDate = sdf.format(date);
+        return formattedDate;
+    }
+
     public static String countryCodeConverter(String code)
     {
         Locale l = new Locale("", code);
