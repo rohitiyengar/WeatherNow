@@ -2,12 +2,18 @@ package com.project.mobilecomputing.weathernow;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.project.mobilecomputing.weathernow.helpers.GPSLocationProvider;
+import com.project.mobilecomputing.weathernow.helpers.JSONParser;
+import com.project.mobilecomputing.weathernow.helpers.WeatherClient;
+import com.project.mobilecomputing.weathernow.models.WeatherData;
+
+import org.json.JSONException;
 
 public class HomeScreen extends Activity {
     ImageView weatherImageView;
@@ -19,12 +25,26 @@ public class HomeScreen extends Activity {
     GPSLocationProvider gps;
     double latitude;
     double longitude;
-
+    String temp;
+    String conditions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
+
+        gps= new GPSLocationProvider(HomeScreen.this);
+        if(gps.canGetLocation()){
+
+            latitude = gps.getLatitude();
+            longitude = gps.getLongitude();
+
+        }
+        else{
+
+            gps.showSettingsAlert();
+        }
+
         weatherImageView=(ImageView)findViewById(R.id.weatherImageView);
         gpsImageView=(ImageView)findViewById(R.id.gpsImageView);
         mapImageView=(ImageView)findViewById(R.id.mapImageView);
@@ -66,7 +86,10 @@ public class HomeScreen extends Activity {
         mapImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(HomeScreen.this,"Map",Toast.LENGTH_SHORT).show();
+
+                JSONWeatherTask task = new JSONWeatherTask();
+                task.execute(latitude+"",longitude+"");
+
             }
         });
 
@@ -93,6 +116,49 @@ public class HomeScreen extends Activity {
             }
         });
 
+
+    }
+
+    private class JSONWeatherTask extends AsyncTask<String, Void, WeatherData> {
+
+        @Override
+        protected WeatherData doInBackground(String... params) {
+            WeatherData weather = new WeatherData();
+            String data="";
+            data = ((new WeatherClient()).getWeatherData(params[0], params[1]));
+            try {
+                weather = JSONParser.getWeatherData(data);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return weather;
+        }
+
+        @Override
+        protected void onPostExecute(WeatherData weather) {
+
+            super.onPostExecute(weather);
+            try{
+                temp=Math.round((weather.temperature.getTemp() - 273.15)) + "° C";
+                conditions=weather.conditions.getCondition().toUpperCase();
+
+                Intent mapIntent = new Intent(HomeScreen.this, MapsActivity.class);
+
+                mapIntent.putExtra("lat",latitude);
+                mapIntent.putExtra("lon",longitude);
+                mapIntent.putExtra("temp",temp);
+                mapIntent.putExtra("cond",conditions);
+                startActivity(mapIntent);
+
+            }
+            catch (Exception e)
+            {
+                Toast.makeText(HomeScreen.this, "No Data Found.", Toast.LENGTH_LONG).show();
+                finish();
+            }
+
+        }
 
     }
 }
