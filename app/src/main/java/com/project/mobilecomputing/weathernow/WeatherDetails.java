@@ -35,9 +35,12 @@ public class WeatherDetails extends Activity {
     Button forecastButton;
     String temperature;
     String conditions;
+    String conditionsForForecast;
     String city;
     String cityForecast;
     Integer mode;
+    String latitude;
+    String longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +104,14 @@ public class WeatherDetails extends Activity {
                 share.putExtra(Intent.EXTRA_TEXT, message);
                 startActivity(Intent.createChooser(share, "Share Current Weather Conditions"));
                 return true;
+            case R.id.action_map:
+                Intent mapIntent = new Intent(WeatherDetails.this, MapsActivity.class);
+
+                mapIntent.putExtra("lat",latitude);
+                mapIntent.putExtra("lon",longitude);
+                mapIntent.putExtra("temp",temperature);
+                mapIntent.putExtra("cond",conditionsForForecast);
+                startActivity(mapIntent);
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -220,6 +231,10 @@ public class WeatherDetails extends Activity {
                 city=weather.location.getCity().toUpperCase() + ", " + Converters.countryCodeConverter(weather.location.getCountry());
                 cityForecast = weather.location.getCity();
                 conditions=weather.conditions.getCondition() + " (" + weather.conditions.getDescr().toUpperCase() + ")";
+                latitude = weather.location.getLatitude()+"";
+                longitude= weather.location.getLongitude()+"";
+                conditionsForForecast=weather.conditions.getCondition().toUpperCase();
+
             }
             catch (Exception e)
             {
