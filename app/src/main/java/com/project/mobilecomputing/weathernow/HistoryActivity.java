@@ -2,6 +2,8 @@ package com.project.mobilecomputing.weathernow;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.project.mobilecomputing.weathernow.helpers.WeatherDBHelper;
 import com.project.mobilecomputing.weathernow.models.History;
@@ -73,18 +76,38 @@ public class HistoryActivity extends Activity {
                 this.finish();
                 return true;
             case R.id.action_del:
-                db.deleteAllHistory();
-                historyCityList.clear();
-                history.clear();
-                history = db.getAllHistory();
-                for(History h:history)
-                {
-                    historyCityList.add(h.getLocation());
-                }
-                arrayAdapter.addAll(historyCityList);
-                arrayAdapter.notifyDataSetChanged();
-                historyListView.invalidateViews();
-                historyListView.refreshDrawableState();
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+                alertDialogBuilder.setMessage("Are you sure you want to clear history?");
+
+                alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        db.deleteAllHistory();
+                        historyCityList.clear();
+                        history.clear();
+                        history = db.getAllHistory();
+                        for (History h : history) {
+                            historyCityList.add(h.getLocation());
+                        }
+                        arrayAdapter.addAll(historyCityList);
+                        arrayAdapter.notifyDataSetChanged();
+                        historyListView.invalidateViews();
+                        historyListView.refreshDrawableState();
+                        Toast.makeText(HistoryActivity.this, "Cleared History", Toast.LENGTH_LONG).show();
+                    }
+                });
+
+                alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
