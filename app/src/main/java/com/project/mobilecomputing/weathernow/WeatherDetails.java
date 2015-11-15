@@ -18,6 +18,9 @@ import android.widget.Toast;
 import com.project.mobilecomputing.weathernow.helpers.Converters;
 import com.project.mobilecomputing.weathernow.helpers.JSONParser;
 import com.project.mobilecomputing.weathernow.helpers.WeatherClient;
+import com.project.mobilecomputing.weathernow.helpers.WeatherDBHelper;
+import com.project.mobilecomputing.weathernow.models.Favorites;
+import com.project.mobilecomputing.weathernow.models.History;
 import com.project.mobilecomputing.weathernow.models.WeatherData;
 
 import org.json.JSONException;
@@ -41,6 +44,8 @@ public class WeatherDetails extends Activity {
     Integer mode;
     String latitude;
     String longitude;
+    WeatherDBHelper db;
+    String cityForDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +80,9 @@ public class WeatherDetails extends Activity {
         actionBar.setDisplayUseLogoEnabled(true);
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#06272E")));
 
+        //Creating Database
+
+        db = new WeatherDBHelper(this);
         forecastButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,8 +118,12 @@ public class WeatherDetails extends Activity {
                 mapIntent.putExtra("lat",latitude);
                 mapIntent.putExtra("lon",longitude);
                 mapIntent.putExtra("temp",temperature);
-                mapIntent.putExtra("cond",conditionsForForecast);
+                mapIntent.putExtra("cond", conditionsForForecast);
                 startActivity(mapIntent);
+                return true;
+            case R.id.action_fav:
+                db.addFavorite(new Favorites(cityForDb));
+                Toast.makeText(this,"Added to Favorites List",Toast.LENGTH_SHORT).show();
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -234,6 +246,9 @@ public class WeatherDetails extends Activity {
                 latitude = weather.location.getLatitude()+"";
                 longitude= weather.location.getLongitude()+"";
                 conditionsForForecast=weather.conditions.getCondition().toUpperCase();
+
+                cityForDb=weather.location.getCity();
+                db.addHistory(new History(cityForDb));
 
             }
             catch (Exception e)

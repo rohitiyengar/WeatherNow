@@ -53,6 +53,10 @@
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" >
         </activity>
+        <activity android:name=".HistoryActivity" >
+        </activity>
+        <activity android:name=".FavoritesActivity" >
+        </activity>
     </application>
 
 </manifest>

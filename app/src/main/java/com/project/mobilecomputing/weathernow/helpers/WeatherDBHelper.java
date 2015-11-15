@@ -17,7 +17,7 @@ import java.util.List;
  * Created by Kannan on 11/13/2015.
  * REFERENCE: http://hmkcode.com/android-simple-sqlite-database-tutorial/
  */
-public class MySQLiteHelper extends SQLiteOpenHelper {
+public class WeatherDBHelper extends SQLiteOpenHelper {
 
     // Database Version
     private static final int DATABASE_VERSION = 1;
@@ -33,7 +33,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     private static final String KEY_LOCATION = "location";
     private static final String[] COLUMNS = {KEY_ID,KEY_LOCATION};
 
-    public MySQLiteHelper(Context context) {
+    public WeatherDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -65,43 +65,54 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     }
 
     public void addHistory(History history){
-        //for logging
-        Log.d("addHistory", history.toString());
+        try {//for logging
+            Log.d("addHistory", history.toString());
 
-        // 1. get reference to writable DB
-        SQLiteDatabase db = this.getWritableDatabase();
+            // 1. get reference to writable DB
+            SQLiteDatabase db = this.getWritableDatabase();
 
-        // 2. create ContentValues to add key "column"/value
-        ContentValues values = new ContentValues();
-        values.put(KEY_LOCATION, history.getLocation()); //
+            // 2. create ContentValues to add key "column"/value
+            ContentValues values = new ContentValues();
+            values.put(KEY_LOCATION, history.getLocation()); //
 
-        // 3. insert
-        db.insert(TABLE_HISTORY, // table
-                null, //nullColumnHack
-                values); // key/value -> keys = column names/ values = column values
+            // 3. insert
+            db.insertOrThrow(TABLE_HISTORY, // table
+                    null, //nullColumnHack
+                    values); // key/value -> keys = column names/ values = column values
 
-        // 4. close
-        db.close();
+            // 4. close
+            db.close();
+        }
+        catch (Exception e)
+        {
+            Log.d("Duplicate", history.toString());
+        }
     }
 
     public void addFavorite(Favorites favorite){
-        //for logging
-        Log.d("addFavorite", favorite.toString());
+        try {
+            //for logging
+            Log.d("addFavorite", favorite.toString());
 
-        // 1. get reference to writable DB
-        SQLiteDatabase db = this.getWritableDatabase();
+            // 1. get reference to writable DB
+            SQLiteDatabase db = this.getWritableDatabase();
 
-        // 2. create ContentValues to add key "column"/value
-        ContentValues values = new ContentValues();
-        values.put(KEY_LOCATION, favorite.getLocation()); //
+            // 2. create ContentValues to add key "column"/value
+            ContentValues values = new ContentValues();
+            values.put(KEY_LOCATION, favorite.getLocation()); //
 
-        // 3. insert
-        db.insert(TABLE_FAVORITES, // table
-                null, //nullColumnHack
-                values); // key/value -> keys = column names/ values = column values
+            // 3. insert
+            db.insertOrThrow(TABLE_FAVORITES, // table
+                    null, //nullColumnHack
+                    values); // key/value -> keys = column names/ values = column values
 
-        // 4. close
-        db.close();
+            // 4. close
+            db.close();
+        }
+        catch (Exception e)
+        {
+            Log.d("Duplicate", favorite.toString());
+        }
     }
 
     public History getHistory(int id){
@@ -191,8 +202,6 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
-        Log.d("getAllHistory()", history.toString());
-
         // return history list
         return historyList;
     }
@@ -219,8 +228,6 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 favoritesList.add(favorite);
             } while (cursor.moveToNext());
         }
-
-        Log.d("getAllFavorites()", favorite.toString());
 
         // return favorite list
         return favoritesList;
@@ -268,7 +275,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         // 2. delete
-        db.execSQL("delete * from " + TABLE_HISTORY);
+        db.execSQL("delete from " + TABLE_HISTORY);
 
         // 3. close
         db.close();
@@ -283,7 +290,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         // 2. delete
-        db.execSQL("delete * from "+TABLE_FAVORITES);
+        db.execSQL("delete from "+TABLE_FAVORITES);
 
         // 3. close
         db.close();

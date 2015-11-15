@@ -2,16 +2,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
     <item
-        android:id="@+id/action_share"
+        android:id="@+id/action_fav"
         android:orderInCategory="100"
         android:showAsAction="ifRoom"
-        android:icon="@drawable/shareicon2"
-        android:title="Share"/>
+        android:icon="@drawable/favicon"
+        android:title="Fav"/>
     <item
         android:id="@+id/action_map"
         android:orderInCategory="100"
         android:showAsAction="ifRoom"
         android:icon="@drawable/mapiconnew"
         android:title="Map"/>
+    <item
+        android:id="@+id/action_share"
+        android:orderInCategory="100"
+        android:showAsAction="ifRoom"
+        android:icon="@drawable/shareicon2"
+        android:title="Share"/>
+
 
 </menu>

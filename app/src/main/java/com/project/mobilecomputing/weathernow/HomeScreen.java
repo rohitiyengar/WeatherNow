@@ -96,14 +96,16 @@ public class HomeScreen extends Activity {
         historyImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(HomeScreen.this,"Location History",Toast.LENGTH_SHORT).show();
+                Intent historyIntent = new Intent(HomeScreen.this, HistoryActivity.class);
+                startActivity(historyIntent);
             }
         });
 
         favImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(HomeScreen.this,"Favorites",Toast.LENGTH_SHORT).show();
+                Intent favoritesIntent = new Intent(HomeScreen.this, FavoritesActivity.class);
+                startActivity(favoritesIntent);
 
             }
         });
