@@ -201,6 +201,10 @@ public class WeatherDetails extends Activity {
                     {
                         weatherLayout.setBackgroundResource(R.drawable.fog);
                     }
+                    else if(weather.conditions.getCondition().contains("Haze"))
+                    {
+                        weatherLayout.setBackgroundResource(R.drawable.fog);
+                    }
                 }
                 else
                 {
@@ -235,6 +239,10 @@ public class WeatherDetails extends Activity {
                         weatherLayout.setBackgroundResource(R.drawable.nightthunder);
                     }
                     else if(weather.conditions.getCondition().contains("Atmosphere"))
+                    {
+                        weatherLayout.setBackgroundResource(R.drawable.nightfog);
+                    }
+                    else if(weather.conditions.getCondition().contains("Haze"))
                     {
                         weatherLayout.setBackgroundResource(R.drawable.nightfog);
                     }
