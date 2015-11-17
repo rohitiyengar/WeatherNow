@@ -113,7 +113,8 @@ public class HomeScreen extends Activity {
         aboutImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(HomeScreen.this, "About Us", Toast.LENGTH_SHORT).show();
+                Intent aboutIntent = new Intent(HomeScreen.this, AboutActivity.class);
+                startActivity(aboutIntent);
 
             }
         });
