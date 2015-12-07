@@ -23,7 +23,7 @@ public class AboutActivity extends Activity {
         actionBar.setDisplayUseLogoEnabled(true);
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#06272E")));
         aboutus=(ImageView)findViewById(R.id.aboutus);
-        
+
 
     }
 
