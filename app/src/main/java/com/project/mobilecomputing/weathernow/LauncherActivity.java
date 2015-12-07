@@ -1,20 +1,14 @@
 package com.project.mobilecomputing.weathernow;
 
 import android.app.Activity;
-import android.app.AlarmManager;
+
 import android.content.Intent;
-import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.project.mobilecomputing.weathernow.helpers.JSONParser;
-import com.project.mobilecomputing.weathernow.helpers.WeatherClient;
-import com.project.mobilecomputing.weathernow.models.WeatherData;
-
-import org.json.JSONException;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -27,11 +21,9 @@ public class LauncherActivity extends Activity {
         setContentView(R.layout.activity_launcher);
 
         try {
-            startService(new Intent(this, NotificationService.class));
-        }
-        catch (Exception e)
-        {
-            Toast.makeText(this,"Notification Service is up",Toast.LENGTH_SHORT).show();
+            startService(new Intent(this, NotificationService.class)); //Start Notification Service.
+        } catch (Exception e) {
+            Toast.makeText(this, "Notification Service is up", Toast.LENGTH_SHORT).show();
         }
 
 

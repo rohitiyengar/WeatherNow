@@ -28,6 +28,7 @@ public class FavoritesActivity extends Activity {
     ListView favListView;
     ArrayAdapter arrayAdapter;
     WeatherDBHelper db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,13 +38,12 @@ public class FavoritesActivity extends Activity {
         actionBar.setDisplayUseLogoEnabled(true);
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#06272E")));
         db = new WeatherDBHelper(this);
-        favorites=db.getAllFavorites();
-        favoritesCityList=new ArrayList<String>();
-        for (Favorites f:favorites)
-        {
+        favorites = db.getAllFavorites();
+        favoritesCityList = new ArrayList<String>();
+        for (Favorites f : favorites) {
             favoritesCityList.add(f.getLocation());
         }
-        favListView = (ListView)findViewById(R.id.favoritesListView);
+        favListView = (ListView) findViewById(R.id.favoritesListView);
         arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, favoritesCityList);
         favListView.setAdapter(arrayAdapter);
 
@@ -51,7 +51,7 @@ public class FavoritesActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent weatherIntent = new Intent(FavoritesActivity.this, WeatherDetails.class);
-                weatherIntent.putExtra("mode",0);//City Mode.
+                weatherIntent.putExtra("mode", 0);//City Mode.
                 weatherIntent.putExtra("city", favoritesCityList.get(position).replaceAll("\\s", "%20"));
                 startActivity(weatherIntent);
             }
@@ -73,7 +73,7 @@ public class FavoritesActivity extends Activity {
                 // app icon in action bar clicked; goto parent activity.
                 this.finish();
                 return true;
-            case R.id.action_del:
+            case R.id.action_del: //Clear Favorites by showing Alert Dialog
                 final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
                 alertDialogBuilder.setMessage("Are you sure you want to clear favorites?");
 

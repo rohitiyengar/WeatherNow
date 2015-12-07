@@ -15,23 +15,19 @@ import java.util.List;
 
 /**
  * Created by Kannan on 11/13/2015.
- * REFERENCE: http://hmkcode.com/android-simple-sqlite-database-tutorial/
+ * Reference: http://hmkcode.com/android-simple-sqlite-database-tutorial/
  */
 public class WeatherDBHelper extends SQLiteOpenHelper {
 
-    // Database Version
-    private static final int DATABASE_VERSION = 1;
-    // Database Name
-    private static final String DATABASE_NAME = "LocationDB";
 
-    //Tables
+    private static final int DATABASE_VERSION = 1;
+    private static final String DATABASE_NAME = "LocationDB";
     private static final String TABLE_HISTORY = "history";
     private static final String TABLE_FAVORITES = "favorites";
 
-    // Columns
     private static final String KEY_ID = "id";
     private static final String KEY_LOCATION = "location";
-    private static final String[] COLUMNS = {KEY_ID,KEY_LOCATION};
+    private static final String[] COLUMNS = {KEY_ID, KEY_LOCATION};
 
     public WeatherDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -39,263 +35,236 @@ public class WeatherDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // SQL statement to create history table
+
         String CREATE_HISTORY_TABLE = "CREATE TABLE history ( " +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "location TEXT UNIQUE)";
-        // SQL statement to create favorites table
+
         String CREATE_FAVORITES_TABLE = "CREATE TABLE favorites ( " +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "location TEXT UNIQUE)";
 
-        // create history table
+
         db.execSQL(CREATE_HISTORY_TABLE);
 
-        // create favorites table
         db.execSQL(CREATE_FAVORITES_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Drop older tables if existed
+
         db.execSQL("DROP TABLE IF EXISTS history");
         db.execSQL("DROP TABLE IF EXISTS favorites");
-        // create fresh tables
+
         this.onCreate(db);
     }
 
-    public void addHistory(History history){
-        try {//for logging
+    /***
+     * Add a row to the history table
+     *
+     * @param history
+     */
+    public void addHistory(History history) {
+        try {
             Log.d("addHistory", history.toString());
 
-            // 1. get reference to writable DB
             SQLiteDatabase db = this.getWritableDatabase();
 
-            // 2. create ContentValues to add key "column"/value
             ContentValues values = new ContentValues();
-            values.put(KEY_LOCATION, history.getLocation()); //
+            values.put(KEY_LOCATION, history.getLocation());
 
-            // 3. insert
-            db.insertOrThrow(TABLE_HISTORY, // table
-                    null, //nullColumnHack
-                    values); // key/value -> keys = column names/ values = column values
-
-            // 4. close
+            db.insertOrThrow(TABLE_HISTORY,
+                    null,
+                    values);
             db.close();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             Log.d("Duplicate", history.toString());
         }
     }
 
-    public void addFavorite(Favorites favorite){
+    /***
+     * Add a row to the favorites table
+     *
+     * @param favorite
+     */
+    public void addFavorite(Favorites favorite) {
         try {
-            //for logging
             Log.d("addFavorite", favorite.toString());
-
-            // 1. get reference to writable DB
             SQLiteDatabase db = this.getWritableDatabase();
 
-            // 2. create ContentValues to add key "column"/value
             ContentValues values = new ContentValues();
-            values.put(KEY_LOCATION, favorite.getLocation()); //
-
-            // 3. insert
-            db.insertOrThrow(TABLE_FAVORITES, // table
-                    null, //nullColumnHack
-                    values); // key/value -> keys = column names/ values = column values
-
-            // 4. close
+            values.put(KEY_LOCATION, favorite.getLocation());
+            db.insertOrThrow(TABLE_FAVORITES,
+                    null,
+                    values);
             db.close();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             Log.d("Duplicate", favorite.toString());
         }
     }
 
-    public History getHistory(int id){
+    /***
+     * Retrieve Single History row.
+     *
+     * @param id
+     * @return History object with values from the row.
+     */
+    public History getHistory(int id) {
 
-        // 1. get reference to readable DB
         SQLiteDatabase db = this.getReadableDatabase();
 
-        // 2. build query
         Cursor cursor =
-                db.query(TABLE_HISTORY, // a. table
-                        COLUMNS, // b. column names
-                        " id = ?", // c. selections
-                        new String[] { String.valueOf(id) }, // d. selections args
-                        null, // e. group by
-                        null, // f. having
-                        null, // g. order by
-                        null); // h. limit
+                db.query(TABLE_HISTORY,
+                        COLUMNS,
+                        " id = ?",
+                        new String[]{String.valueOf(id)},
+                        null,
+                        null,
+                        null,
+                        null);
 
-        // 3. if we got results get the first one
         if (cursor != null)
             cursor.moveToFirst();
 
-        // 4. build history object
         History history = new History();
         history.setId(Integer.parseInt(cursor.getString(0)));
         history.setLocation(cursor.getString(1));
 
-        //log
         Log.d("getHistory(" + id + ")", history.toString());
 
-        // 5. return history
         return history;
     }
 
-    public Favorites getFavorite(int id){
+    /***
+     * Retrieve single Favorites row
+     *
+     * @param id
+     * @return Favorites object with values from the row.
+     */
+    public Favorites getFavorite(int id) {
 
-        // 1. get reference to readable DB
         SQLiteDatabase db = this.getReadableDatabase();
 
-        // 2. build query
         Cursor cursor =
-                db.query(TABLE_FAVORITES, // a. table
-                        COLUMNS, // b. column names
-                        " id = ?", // c. selections
-                        new String[] { String.valueOf(id) }, // d. selections args
-                        null, // e. group by
-                        null, // f. having
-                        null, // g. order by
-                        null); // h. limit
+                db.query(TABLE_FAVORITES,
+                        COLUMNS,
+                        " id = ?",
+                        new String[]{String.valueOf(id)},
+                        null,
+                        null,
+                        null,
+                        null);
 
-        // 3. if we got results get the first one
         if (cursor != null)
             cursor.moveToFirst();
 
-        // 4. build favorite object
         Favorites favorite = new Favorites();
         favorite.setId(Integer.parseInt(cursor.getString(0)));
         favorite.setLocation(cursor.getString(1));
 
-        //log
         Log.d("getFavorite(" + id + ")", favorite.toString());
 
-        // 5. return favorite
         return favorite;
     }
 
+    /***
+     * Get all History data
+     *
+     * @return All rows in the history table as a list.
+     */
     public List<History> getAllHistory() {
         List<History> historyList = new LinkedList<History>();
 
-        // 1. build the query
         String query = "SELECT  * FROM " + TABLE_HISTORY;
 
-        // 2. get reference to writable DB
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
-        // 3. go over each row, build history and add it to list
         History history = null;
         if (cursor.moveToFirst()) {
             do {
                 history = new History();
                 history.setId(Integer.parseInt(cursor.getString(0)));
                 history.setLocation(cursor.getString(1));
-
-                // Add history to history list
                 historyList.add(history);
             } while (cursor.moveToNext());
         }
-
-        // return history list
         return historyList;
     }
 
+    /***
+     * Get all Favorites data
+     *
+     * @return ALl rows in favorites table as a list.
+     */
     public List<Favorites> getAllFavorites() {
         List<Favorites> favoritesList = new LinkedList<Favorites>();
-
-        // 1. build the query
         String query = "SELECT  * FROM " + TABLE_FAVORITES;
-
-        // 2. get reference to writable DB
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
-
-        // 3. go over each row, build favorite and add it to list
         Favorites favorite = null;
         if (cursor.moveToFirst()) {
             do {
                 favorite = new Favorites();
                 favorite.setId(Integer.parseInt(cursor.getString(0)));
                 favorite.setLocation(cursor.getString(1));
-
-                // Add history to favorites list
                 favoritesList.add(favorite);
             } while (cursor.moveToNext());
         }
-
-        // return favorite list
         return favoritesList;
     }
 
+    /***
+     * Delete a single history row.
+     *
+     * @param history
+     */
     public void deleteHistory(History history) {
 
-        // 1. get reference to writable DB
         SQLiteDatabase db = this.getWritableDatabase();
-
-        // 2. delete
-        db.delete(TABLE_HISTORY, //table name
-                KEY_ID+" = ?",  // selections
-                new String[] { String.valueOf(history.getId()) }); //selections args
-
-        // 3. close
+        db.delete(TABLE_HISTORY,
+                KEY_ID + " = ?",
+                new String[]{String.valueOf(history.getId())});
         db.close();
-
-        //log
         Log.d("deleteHistory", history.toString());
 
     }
 
+    /***
+     * Delete a single favorites row.
+     *
+     * @param favorite
+     */
     public void deleteFavorite(Favorites favorite) {
-
-        // 1. get reference to writable DB
         SQLiteDatabase db = this.getWritableDatabase();
 
-        // 2. delete
-        db.delete(TABLE_FAVORITES, //table name
-                KEY_ID+" = ?",  // selections
-                new String[] { String.valueOf(favorite.getId()) }); //selections args
-
-        // 3. close
+        db.delete(TABLE_FAVORITES,
+                KEY_ID + " = ?",
+                new String[]{String.valueOf(favorite.getId())});
         db.close();
 
-        //log
         Log.d("deleteFavorites", favorite.toString());
 
     }
 
-    public void deleteAllHistory()
-    {
-        // 1. get reference to writable DB
+    /***
+     * Delete all history
+     */
+    public void deleteAllHistory() {
+
         SQLiteDatabase db = this.getWritableDatabase();
-
-        // 2. delete
         db.execSQL("delete from " + TABLE_HISTORY);
-
-        // 3. close
         db.close();
-
-        //log
-        Log.d("deleteAllHistory","All rows from History deleted.");
+        Log.d("deleteAllHistory", "All rows from History deleted.");
     }
 
-    public void deleteAllFavorites()
-    {
-        // 1. get reference to writable DB
+    /***
+     * Delete all favorites
+     */
+    public void deleteAllFavorites() {
         SQLiteDatabase db = this.getWritableDatabase();
-
-        // 2. delete
-        db.execSQL("delete from "+TABLE_FAVORITES);
-
-        // 3. close
+        db.execSQL("delete from " + TABLE_FAVORITES);
         db.close();
-
-        //log
-        Log.d("deleteAllFavorites","All rows from Favorites deleted.");
+        Log.d("deleteAllFavorites", "All rows from Favorites deleted.");
     }
 }

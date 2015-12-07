@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,26 +24,24 @@ public class CityEntry extends Activity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayUseLogoEnabled(true);
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#06272E")));
-        cityEditText=(EditText)findViewById(R.id.cityEditText);
-        nextButton=(Button)findViewById(R.id.nextButton);
+        cityEditText = (EditText) findViewById(R.id.cityEditText);
+        nextButton = (Button) findViewById(R.id.nextButton);
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(cityEditText.getText().length()==0)
-                {
+                if (cityEditText.getText().length() == 0) {
                     Toast.makeText(CityEntry.this, "Please Enter A City Name", Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
+                } else {
                     Intent weatherIntent = new Intent(CityEntry.this, WeatherDetails.class);
-                    weatherIntent.putExtra("mode",0);//City Mode.
-                    weatherIntent.putExtra("city",cityEditText.getText().toString().replaceAll("\\s","%20"));
+                    weatherIntent.putExtra("mode", 0);//City Mode.
+                    weatherIntent.putExtra("city", cityEditText.getText().toString().replaceAll("\\s", "%20"));
                     startActivity(weatherIntent);
 
                 }
             }
         });
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

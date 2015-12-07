@@ -2,13 +2,14 @@ package com.project.mobilecomputing.weathernow.models;
 
 /**
  * Created by Kannan on 11/13/2015.
- * REFERENCE: http://hmkcode.com/android-simple-sqlite-database-tutorial/
+ * Reference: http://hmkcode.com/android-simple-sqlite-database-tutorial/
  */
 public class Favorites {
     private int id;
     private String location;
 
-    public Favorites(){}
+    public Favorites() {
+    }
 
     public Favorites(String location) {
         super();

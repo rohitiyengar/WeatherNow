@@ -6,9 +6,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.animation.Animation;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 
 public class AboutActivity extends Activity {
@@ -22,7 +19,7 @@ public class AboutActivity extends Activity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayUseLogoEnabled(true);
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#06272E")));
-        aboutus=(ImageView)findViewById(R.id.aboutus);
+        aboutus = (ImageView) findViewById(R.id.aboutus);
 
 
     }

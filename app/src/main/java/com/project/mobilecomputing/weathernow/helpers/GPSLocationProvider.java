@@ -1,10 +1,5 @@
 package com.project.mobilecomputing.weathernow.helpers;
 
-import java.io.IOException;
-
-import java.util.List;
-import java.util.Locale;
-
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
@@ -13,8 +8,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -26,6 +19,7 @@ import android.util.Log;
 
 /**
  * Created by rohit.iyengar on 11/8/2015.
+ * Reference: http://javapapers.com/android/android-location-using-gps-network-provider/
  */
 public class GPSLocationProvider extends Service implements LocationListener {
 
@@ -58,9 +52,10 @@ public class GPSLocationProvider extends Service implements LocationListener {
         getLocation();
     }
 
-    /*****
-     * Method which returns location from GPS or Network
-     * @return Location object.
+    /***
+     * Method to get location.
+     *
+     * @return Location object with coordinates
      */
     @TargetApi(Build.VERSION_CODES.M)
     public Location getLocation() {
@@ -134,15 +129,15 @@ public class GPSLocationProvider extends Service implements LocationListener {
         }
     }
 
-    public double getLatitude(){
-        if(location != null){
+    public double getLatitude() {
+        if (location != null) {
             latitude = location.getLatitude();
         }
         return latitude;
     }
 
-    public double getLongitude(){
-        if(location != null){
+    public double getLongitude() {
+        if (location != null) {
             longitude = location.getLongitude();
         }
         return longitude;
@@ -151,10 +146,11 @@ public class GPSLocationProvider extends Service implements LocationListener {
     public boolean canGetLocation() {
         return this.canGetLocation;
     }
-    /*****
-     * Method which is used to show settings screen if GPS is disabled.
+
+    /***
+     * Method to display Settings alert.
      */
-    public void showSettingsAlert(){
+    public void showSettingsAlert() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
 
         alertDialog.setTitle("GPS Disabled");
@@ -162,7 +158,7 @@ public class GPSLocationProvider extends Service implements LocationListener {
         alertDialog.setMessage("GPS is not enabled. Would you like to enable it?");
 
         alertDialog.setPositiveButton("Settings", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog,int which) {
+            public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 mContext.startActivity(intent);
             }

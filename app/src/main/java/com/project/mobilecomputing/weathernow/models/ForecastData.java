@@ -24,8 +24,7 @@ public class ForecastData {
         return fiveDayForecast;
     }
 
-    public void addDayForecast(DayForecast dayForecast)
-    {
+    public void addDayForecast(DayForecast dayForecast) {
         fiveDayForecast.add(dayForecast);
     }
 

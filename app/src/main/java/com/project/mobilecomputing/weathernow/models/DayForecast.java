@@ -29,8 +29,7 @@ public class DayForecast {
         this.longDate = longDate;
     }
 
-    public class Temp
-    {
+    public class Temp {
         private float minTemp;
         private float maxTemp;
 

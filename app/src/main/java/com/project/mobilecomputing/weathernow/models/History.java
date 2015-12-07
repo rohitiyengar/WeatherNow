@@ -2,13 +2,14 @@ package com.project.mobilecomputing.weathernow.models;
 
 /**
  * Created by Kannan on 11/13/2015.
- * REFERENCE: http://hmkcode.com/android-simple-sqlite-database-tutorial/
+ * Reference: http://hmkcode.com/android-simple-sqlite-database-tutorial/
  */
 public class History {
     private int id;
     private String location;
 
-    public History(){}
+    public History() {
+    }
 
     public History(String location) {
         super();

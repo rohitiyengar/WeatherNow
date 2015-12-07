@@ -40,14 +40,13 @@ public class HistoryActivity extends Activity {
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#06272E")));
 
         db = new WeatherDBHelper(this);
-        historyCityList=new ArrayList<String>();
+        historyCityList = new ArrayList<String>();
         history = db.getAllHistory();
-        for(History h:history)
-        {
+        for (History h : history) {
             historyCityList.add(h.getLocation());
         }
 
-        historyListView=(ListView)findViewById(R.id.historyListView);
+        historyListView = (ListView) findViewById(R.id.historyListView);
 
         arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, historyCityList);
         historyListView.setAdapter(arrayAdapter);
@@ -56,18 +55,20 @@ public class HistoryActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent weatherIntent = new Intent(HistoryActivity.this, WeatherDetails.class);
-                weatherIntent.putExtra("mode",0);//City Mode.
+                weatherIntent.putExtra("mode", 0);//City Mode.
                 weatherIntent.putExtra("city", historyCityList.get(position).replaceAll("\\s", "%20"));
                 startActivity(weatherIntent);
             }
         });
 
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_fav_his, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -75,7 +76,7 @@ public class HistoryActivity extends Activity {
                 // app icon in action bar clicked; goto parent activity.
                 this.finish();
                 return true;
-            case R.id.action_del:
+            case R.id.action_del: //Clear History by showing Alert Dialog
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
                 alertDialogBuilder.setMessage("Are you sure you want to clear history?");
 

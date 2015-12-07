@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 /**
  * Created by rohit.iyengar on 11/7/2015.
+ * Reference: http://www.survivingwithandroid.com/2013/05/build-weather-app-json-http-android.html
  */
 public class Location implements Serializable {
     private float latitude;

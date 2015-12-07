@@ -2,7 +2,7 @@ package com.project.mobilecomputing.weathernow.models;
 
 /**
  * Created by rohit.iyengar on 11/7/2015.
- * Referenced from http://www.survivingwithandroid.com/2013/05/build-weather-app-json-http-android.html
+ * Reference: http://www.survivingwithandroid.com/2013/05/build-weather-app-json-http-android.html
  */
 public class WeatherData {
 
@@ -12,11 +12,10 @@ public class WeatherData {
     public Temp temperature = new Temp();
     public Wind wind = new Wind();
     public Rain rain = new Rain();
-    public Snow snow = new Snow()	;
+    public Snow snow = new Snow();
     public Clouds clouds = new Clouds();
 
-    public class WeatherConditions
-    {
+    public class WeatherConditions {
         private float pressure;
         private float humidity;
         private int weatherId;
@@ -72,8 +71,8 @@ public class WeatherData {
             this.icon = icon;
         }
     }
-    public class Temp
-    {
+
+    public class Temp {
         private float temp;
         private float minTemp;
         private float maxTemp;
@@ -103,8 +102,8 @@ public class WeatherData {
             this.maxTemp = maxTemp;
         }
     }
-    public class Wind
-    {
+
+    public class Wind {
         private float speed;
         private float deg;
 
@@ -124,8 +123,8 @@ public class WeatherData {
             this.deg = deg;
         }
     }
-    public class Rain
-    {
+
+    public class Rain {
         private String time;
         private float amount;
 
@@ -145,8 +144,8 @@ public class WeatherData {
             this.amount = amount;
         }
     }
-    public class Snow
-    {
+
+    public class Snow {
         private String time;
         private float amount;
 
@@ -166,8 +165,8 @@ public class WeatherData {
             this.amount = amount;
         }
     }
-    public class Clouds
-    {
+
+    public class Clouds {
         private int perc;
 
         public int getPerc() {

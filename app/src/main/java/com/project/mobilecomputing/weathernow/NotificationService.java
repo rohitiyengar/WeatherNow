@@ -18,13 +18,15 @@ import com.project.mobilecomputing.weathernow.models.WeatherData;
 
 import org.json.JSONException;
 
-
+/***
+ * A sticky service class which checks for weather conditions every 10 minutes and sends a notification alert.
+ */
 public class NotificationService extends Service {
     public WeatherThread weatherThread;
     GPSLocationProvider gps;
     double latitude;
     double longitude;
-    static int notificationNumber=99999;
+    static int notificationNumber = 99999;
 
     public NotificationService() {
     }
@@ -34,15 +36,16 @@ public class NotificationService extends Service {
         // TODO: Return the communication channel to the service.
         throw new UnsupportedOperationException("Not yet implemented");
     }
+
     @Override
 
     public void onCreate() {
-        weatherThread=new WeatherThread(); //Initialize Thread.
+        weatherThread = new WeatherThread(); //Initialize Thread.
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if(!weatherThread.isAlive())
+        if (!weatherThread.isAlive())
             weatherThread.start(); //Start Thread.
         return START_STICKY;
     }
@@ -53,26 +56,39 @@ public class NotificationService extends Service {
         Toast.makeText(this, "Service Destroyed", Toast.LENGTH_LONG).show();
     }
 
-    public void getWeather()
-    {
+    /***
+     * Method to get weather data for current location.
+     */
+    public void getWeather() {
         WeatherData weather = new WeatherData();
-        String data="";
-        data = ((new WeatherClient()).getWeatherData(latitude+"", longitude+""));
+        String data = "";
+        data = ((new WeatherClient()).getWeatherData(latitude + "", longitude + ""));
         try {
             weather = JSONParser.getWeatherData(data);
-            /*Insert Logic to check for weather conditions to give alerts.*/
-            showNotification("Weather Alert In Your Area!",weather.conditions.getCondition()+": "+weather.conditions.getDescr().toUpperCase());
+            /*We have commented out this if condition since we wanted to test notification service in the absence of extreme conditions.
+            * Please uncomment for accurate functionality*/
+            /*
+            if(weather.conditions.getCondition().contains("rain")||weather.conditions.getCondition().contains("storm")
+                    ||weather.conditions.getCondition().contains("snow")||weather.conditions.getCondition().contains("fog")
+                    ||weather.conditions.getCondition().contains("smoke")||weather.conditions.getCondition().contains("dust"))*/
+            showNotification("Weather Alert In Your Area!", weather.conditions.getCondition() + ": " + weather.conditions.getDescr().toUpperCase());
 
         } catch (JSONException e) {
             e.printStackTrace();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
 
     }
 
+    /***
+     * Show a notification in the Notification Drawer
+     * Reference: http://developer.android.com/training/notify-user/build-notification.html
+     *
+     * @param title
+     * @param text
+     */
     public void showNotification(String title, String text) {
         PendingIntent pi = PendingIntent.getActivity(this, 0, new Intent(this, HomeScreen.class), 0);
         Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.applogosmall);
@@ -90,26 +106,28 @@ public class NotificationService extends Service {
         notificationManager.notify(notificationNumber++, notification);
     }
 
-    class WeatherThread extends Thread{
-        static final long DELAY = 1000*5*60;
+    /***
+     * Thread class to call getWeather() every 10 minutes.
+     */
+    class WeatherThread extends Thread {
+        static final long DELAY = 1000 * 10 * 60; //10 Minute Delay.
 
-        public WeatherThread()
-        {
-            gps= new GPSLocationProvider(NotificationService.this);
-            if(gps.canGetLocation()){
+        public WeatherThread() {
+            gps = new GPSLocationProvider(NotificationService.this);
+            if (gps.canGetLocation()) {
 
                 latitude = gps.getLatitude();
                 longitude = gps.getLongitude();
 
-            }
-            else{
+            } else {
 
                 gps.showSettingsAlert();
             }
         }
+
         @Override
-        public void run(){
-            while(true){
+        public void run() {
+            while (true) {
 
                 try {
                     getWeather();

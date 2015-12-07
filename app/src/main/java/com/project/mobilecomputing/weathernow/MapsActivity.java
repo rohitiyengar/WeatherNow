@@ -17,8 +17,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.util.concurrent.TimeUnit;
-
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -44,10 +42,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#06272E")));
         actionBar.setTitle("WeatherNow");
 
-        latitude=Double.parseDouble(getIntent().getExtras().get("lat").toString());
-        longitude=Double.parseDouble(getIntent().getExtras().get("lon").toString());
-        temp=getIntent().getExtras().get("temp").toString();
-        conditions=getIntent().getExtras().get("cond").toString();
+        latitude = Double.parseDouble(getIntent().getExtras().get("lat").toString());
+        longitude = Double.parseDouble(getIntent().getExtras().get("lon").toString());
+        temp = getIntent().getExtras().get("temp").toString();
+        conditions = getIntent().getExtras().get("cond").toString();
 
 
     }
@@ -81,8 +79,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addMarker(new MarkerOptions().position(current).title(temp + " | Conditions: " + conditions));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(current));
     }
-
-
 
 
 }
